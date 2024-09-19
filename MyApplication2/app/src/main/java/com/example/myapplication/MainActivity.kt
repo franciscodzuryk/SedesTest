@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -24,9 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.models.MovieApiService
-import com.example.myapplication.models.RetrofitClient
-import android.util.Log
 import com.example.myapplication.models.MovieResponse
+import com.example.myapplication.models.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         apiService = RetrofitClient.instance.create(MovieApiService::class.java)
 
-        fetchMovies()
+        //fetchMovies()
 
         setContent {
             MyApp()
@@ -90,6 +91,13 @@ fun MyApp() {
             }
         }) {
             Text("Mostrar texto")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+                val movieListIntent = Intent(context, DisplayActivity1::class.java)
+                context.startActivity(movieListIntent)
+        }) {
+            Text("Mostrar Lista con RV")
         }
     }
 }
