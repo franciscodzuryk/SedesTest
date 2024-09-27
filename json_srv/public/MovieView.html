@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Películas</title>
+    <script>
+        async function agregarPelicula(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('id').value;
+            const titulo = document.getElementById('titulo').value;
+            const overview = document.getElementById('overview').value;
+            const releaseDate = document.getElementById('releaseDate').value;
+            const imageURL = document.getElementById('imageURL').value;
+
+            const pelicula = {
+                id: parseInt(id, 10),
+                title: titulo,
+                overview: overview,
+                releaseDate: releaseDate,
+                imageURL: imageURL
+            };
+
+            try {
+                const response = await fetch('http://192.168.0.131:8443/movie', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pelicula)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al agregar la película');
+                }
+
+                const data = await response.json();
+                alert('Película agregada: ' + JSON.stringify(data));
+            } catch (error) {
+                console.error('Error:', error);
+                alert('No se pudo agregar la película.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Agregar Película</h1>
+    <form onsubmit="agregarPelicula(event)">
+        <label for="id">ID:</label>
+        <input type="number" id="id" required><br><br>
+        
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" required><br><br>
+        
+        <label for="overview">Descripción:</label>
+        <textarea id="overview" required></textarea><br><br>
+        
+        <label for="releaseDate">Fecha de Estreno:</label>
+        <input type="date" id="releaseDate" required><br><br>
+        
+        <label for="imageURL">URL de la Imagen:</label>
+        <input type="url" id="imageURL" required><br><br>
+
+        <button type="submit">Agregar Película</button>
+    </form>
+</body>
+</html>

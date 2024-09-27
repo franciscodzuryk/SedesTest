@@ -5,6 +5,7 @@ var express = require('express'),
     methodOverride = require('method-override'),
     errorHandler = require('errorhandler'),
     ip = require("ip");
+    path = require('path');
 
 var PORT = process.env.PORT || 8443;
 var HOST = process.env.HOST || '';
@@ -35,7 +36,12 @@ app.post('/company/message', company.sendMessage);
 app.get('/company/message', company.getAllMessages);
 app.get('/company/message/user/:id_user', company.getMessages);
 app.get('/movie', movie.getMovies);
+app.post('/movie', movie.addMovies);
 
+// Redirigir a MovieView.html
+app.get('/movieview', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'MovieView.html'));
+});
 
 var options = {
     key  : fs.readFileSync('ssl/rootCA.key'),
