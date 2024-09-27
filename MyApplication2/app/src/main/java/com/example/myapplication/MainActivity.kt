@@ -9,17 +9,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -68,7 +62,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    var text by remember { mutableStateOf("") }
     val context = LocalContext.current
 
     Column(
@@ -78,19 +71,10 @@ fun MyApp() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedTextField(
-            value = text,
-            onValueChange = { text = it },
-            label = { Text("Ingrese un texto") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            if (text.isNotEmpty()) {
-                context.startActivity(DisplayActivity.newIntent(context, text))
-            }
+                context.startActivity(DisplayActivity.newIntent(context, ""))
         }) {
-            Text("Mostrar texto")
+            Text("Mostrar Lista Combine")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
@@ -98,6 +82,13 @@ fun MyApp() {
                 context.startActivity(movieListIntent)
         }) {
             Text("Mostrar Lista con RV")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            val movieListIntent = Intent(context, AddMovieActivity::class.java)
+            context.startActivity(movieListIntent)
+        }) {
+            Text("Agregar Movie")
         }
     }
 }
